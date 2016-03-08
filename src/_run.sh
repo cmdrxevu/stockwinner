@@ -1,3 +1,3 @@
 #!/bin/sh
-cd /shared/storage
+cd /shared/storage/stockwinner/src
 ./Program.exe
