@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:app1="http://www.yahooapis.com/v1/base.rng">
+  <xs:import namespace="http://www.yahooapis.com/v1/base.rng" schemaLocation="yql-result_app1.xsd" />
+  <xs:element name="query">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="results" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="quote" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Ask" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+                    <xs:element name="AverageDailyVolume" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+                    <xs:element name="Bid" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+                    <xs:element name="AskRealtime" type="xs:string" minOccurs="0" msdata:Ordinal="3" />
+                    <xs:element name="BidRealtime" type="xs:string" minOccurs="0" msdata:Ordinal="4" />
+                    <xs:element name="BookValue" type="xs:string" minOccurs="0" msdata:Ordinal="5" />
+                    <xs:element name="Change_PercentChange" type="xs:string" minOccurs="0" msdata:Ordinal="6" />
+                    <xs:element name="Change" type="xs:string" minOccurs="0" msdata:Ordinal="7" />
+                    <xs:element name="Commission" type="xs:string" minOccurs="0" msdata:Ordinal="8" />
+                    <xs:element name="Currency" type="xs:string" minOccurs="0" msdata:Ordinal="9" />
+                    <xs:element name="ChangeRealtime" type="xs:string" minOccurs="0" msdata:Ordinal="10" />
+                    <xs:element name="AfterHoursChangeRealtime" type="xs:string" minOccurs="0" msdata:Ordinal="11" />
+                    <xs:element name="DividendShare" type="xs:string" minOccurs="0" msdata:Ordinal="12" />
+                    <xs:element name="LastTradeDate" type="xs:string" minOccurs="0" msdata:Ordinal="13" />
+                    <xs:element name="TradeDate" type="xs:string" minOccurs="0" msdata:Ordinal="14" />
+                    <xs:element name="EarningsShare" type="xs:string" minOccurs="0" msdata:Ordinal="15" />
+                    <xs:element name="ErrorIndicationreturnedforsymbolchangedinvalid" type="xs:string" minOccurs="0" msdata:Ordinal="16" />
+                    <xs:element name="EPSEstimateCurrentYear" type="xs:string" minOccurs="0" msdata:Ordinal="17" />
+                    <xs:element name="EPSEstimateNextYear" type="xs:string" minOccurs="0" msdata:Ordinal="18" />
+                    <xs:element name="EPSEstimateNextQuarter" type="xs:string" minOccurs="0" msdata:Ordinal="19" />
+                    <xs:element name="DaysLow" type="xs:string" minOccurs="0" msdata:Ordinal="20" />
+                    <xs:element name="DaysHigh" type="xs:string" minOccurs="0" msdata:Ordinal="21" />
+                    <xs:element name="YearLow" type="xs:string" minOccurs="0" msdata:Ordinal="22" />
+                    <xs:element name="YearHigh" type="xs:string" minOccurs="0" msdata:Ordinal="23" />
+                    <xs:element name="HoldingsGainPercent" type="xs:string" minOccurs="0" msdata:Ordinal="24" />
+                    <xs:element name="AnnualizedGain" type="xs:string" minOccurs="0" msdata:Ordinal="25" />
+                    <xs:element name="HoldingsGain" type="xs:string" minOccurs="0" msdata:Ordinal="26" />
+                    <xs:element name="HoldingsGainPercentRealtime" type="xs:string" minOccurs="0" msdata:Ordinal="27" />
+                    <xs:element name="HoldingsGainRealtime" type="xs:string" minOccurs="0" msdata:Ordinal="28" />
+                    <xs:element name="MoreInfo" type="xs:string" minOccurs="0" msdata:Ordinal="29" />
+                    <xs:element name="OrderBookRealtime" type="xs:string" minOccurs="0" msdata:Ordinal="30" />
+                    <xs:element name="MarketCapitalization" type="xs:string" minOccurs="0" msdata:Ordinal="31" />
+                    <xs:element name="MarketCapRealtime" type="xs:string" minOccurs="0" msdata:Ordinal="32" />
+                    <xs:element name="EBITDA" type="xs:string" minOccurs="0" msdata:Ordinal="33" />
+                    <xs:element name="ChangeFromYearLow" type="xs:string" minOccurs="0" msdata:Ordinal="34" />
+                    <xs:element name="PercentChangeFromYearLow" type="xs:string" minOccurs="0" msdata:Ordinal="35" />
+                    <xs:element name="LastTradeRealtimeWithTime" type="xs:string" minOccurs="0" msdata:Ordinal="36" />
+                    <xs:element name="ChangePercentRealtime" type="xs:string" minOccurs="0" msdata:Ordinal="37" />
+                    <xs:element name="ChangeFromYearHigh" type="xs:string" minOccurs="0" msdata:Ordinal="38" />
+                    <xs:element name="PercebtChangeFromYearHigh" type="xs:string" minOccurs="0" msdata:Ordinal="39" />
+                    <xs:element name="LastTradeWithTime" type="xs:string" minOccurs="0" msdata:Ordinal="40" />
+                    <xs:element name="LastTradePriceOnly" type="xs:string" minOccurs="0" msdata:Ordinal="41" />
+                    <xs:element name="HighLimit" type="xs:string" minOccurs="0" msdata:Ordinal="42" />
+                    <xs:element name="LowLimit" type="xs:string" minOccurs="0" msdata:Ordinal="43" />
+                    <xs:element name="DaysRange" type="xs:string" minOccurs="0" msdata:Ordinal="44" />
+                    <xs:element name="DaysRangeRealtime" type="xs:string" minOccurs="0" msdata:Ordinal="45" />
+                    <xs:element name="FiftydayMovingAverage" type="xs:string" minOccurs="0" msdata:Ordinal="46" />
+                    <xs:element name="TwoHundreddayMovingAverage" type="xs:string" minOccurs="0" msdata:Ordinal="47" />
+                    <xs:element name="ChangeFromTwoHundreddayMovingAverage" type="xs:string" minOccurs="0" msdata:Ordinal="48" />
+                    <xs:element name="PercentChangeFromTwoHundreddayMovingAverage" type="xs:string" minOccurs="0" msdata:Ordinal="49" />
+                    <xs:element name="ChangeFromFiftydayMovingAverage" type="xs:string" minOccurs="0" msdata:Ordinal="50" />
+                    <xs:element name="PercentChangeFromFiftydayMovingAverage" type="xs:string" minOccurs="0" msdata:Ordinal="51" />
+                    <xs:element name="Name" type="xs:string" minOccurs="0" msdata:Ordinal="52" />
+                    <xs:element name="Notes" type="xs:string" minOccurs="0" msdata:Ordinal="53" />
+                    <xs:element name="Open" type="xs:string" minOccurs="0" msdata:Ordinal="54" />
+                    <xs:element name="PreviousClose" type="xs:string" minOccurs="0" msdata:Ordinal="55" />
+                    <xs:element name="PricePaid" type="xs:string" minOccurs="0" msdata:Ordinal="56" />
+                    <xs:element name="ChangeinPercent" type="xs:string" minOccurs="0" msdata:Ordinal="57" />
+                    <xs:element name="PriceSales" type="xs:string" minOccurs="0" msdata:Ordinal="58" />
+                    <xs:element name="PriceBook" type="xs:string" minOccurs="0" msdata:Ordinal="59" />
+                    <xs:element name="ExDividendDate" type="xs:string" minOccurs="0" msdata:Ordinal="60" />
+                    <xs:element name="PERatio" type="xs:string" minOccurs="0" msdata:Ordinal="61" />
+                    <xs:element name="DividendPayDate" type="xs:string" minOccurs="0" msdata:Ordinal="62" />
+                    <xs:element name="PERatioRealtime" type="xs:string" minOccurs="0" msdata:Ordinal="63" />
+                    <xs:element name="PEGRatio" type="xs:string" minOccurs="0" msdata:Ordinal="64" />
+                    <xs:element name="PriceEPSEstimateCurrentYear" type="xs:string" minOccurs="0" msdata:Ordinal="65" />
+                    <xs:element name="PriceEPSEstimateNextYear" type="xs:string" minOccurs="0" msdata:Ordinal="66" />
+                    <xs:element name="Symbol" type="xs:string" minOccurs="0" msdata:Ordinal="67" />
+                    <xs:element name="SharesOwned" type="xs:string" minOccurs="0" msdata:Ordinal="68" />
+                    <xs:element name="ShortRatio" type="xs:string" minOccurs="0" msdata:Ordinal="69" />
+                    <xs:element name="LastTradeTime" type="xs:string" minOccurs="0" msdata:Ordinal="70" />
+                    <xs:element name="TickerTrend" type="xs:string" minOccurs="0" msdata:Ordinal="71" />
+                    <xs:element name="OneyrTargetPrice" type="xs:string" minOccurs="0" msdata:Ordinal="72" />
+                    <xs:element name="Volume" type="xs:string" minOccurs="0" msdata:Ordinal="73" />
+                    <xs:element name="HoldingsValue" type="xs:string" minOccurs="0" msdata:Ordinal="74" />
+                    <xs:element name="HoldingsValueRealtime" type="xs:string" minOccurs="0" msdata:Ordinal="75" />
+                    <xs:element name="YearRange" type="xs:string" minOccurs="0" msdata:Ordinal="76" />
+                    <xs:element name="DaysValueChange" type="xs:string" minOccurs="0" msdata:Ordinal="77" />
+                    <xs:element name="DaysValueChangeRealtime" type="xs:string" minOccurs="0" msdata:Ordinal="78" />
+                    <xs:element name="StockExchange" type="xs:string" minOccurs="0" msdata:Ordinal="79" />
+                    <xs:element name="DividendYield" type="xs:string" minOccurs="0" msdata:Ordinal="80" />
+                    <xs:element name="PercentChange" type="xs:string" minOccurs="0" msdata:Ordinal="81" />
+                  </xs:sequence>
+                  <xs:attribute name="symbol" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute ref="app1:count" />
+      <xs:attribute ref="app1:created" />
+      <xs:attribute ref="app1:lang" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="query" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
