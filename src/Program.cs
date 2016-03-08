@@ -15,119 +15,119 @@ public class HelloWorld
     {
         Console.WriteLine ("Hello Mono World");
 		
-		// https://forums.xamarin.com/discussion/10405/the-authentication-or-decryption-has-failed-in-the-web-request
-		System.Net.ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
-		
-		var urlBase = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20({0})%20&diagnostics=false&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
-		var symbolsByCountry = new [] {
-				new {c = "GSX", s = Gsx.Symbols}, 
-				new {c = "ASX", s = Asx.Symbols}, 
+	// https://forums.xamarin.com/discussion/10405/the-authentication-or-decryption-has-failed-in-the-web-request
+	System.Net.ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
+	
+	var urlBase = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20({0})%20&diagnostics=false&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+	var symbolsByCountry = new [] {
+			new {c = "GSX", s = Gsx.Symbols}, 
+			new {c = "ASX", s = Asx.Symbols}, 
 //				new {c = "NYSE", s = Nyse.Symbols}
-			};
-		var symbolsCount = symbolsByCountry.SelectMany(s => s.s).Count();
-		var outputs = new List<Tuple<decimal, string>>();
-		var resultDtos = new List<ResultDto>();
-		
-		var actualSymbolIndex = 0;
-		foreach(var symbolsOfCountry in symbolsByCountry)
+		};
+	var symbolsCount = symbolsByCountry.SelectMany(s => s.s).Count();
+	var outputs = new List<Tuple<decimal, string>>();
+	var resultDtos = new List<ResultDto>();
+	
+	var actualSymbolIndex = 0;
+	foreach(var symbolsOfCountry in symbolsByCountry)
+	{
+		var country = symbolsOfCountry.c;
+		var blocks = symbolsOfCountry.s.SplitToIntoBlocksOf(30);
+		foreach(var block in blocks)
 		{
-			var country = symbolsOfCountry.c;
-			var blocks = symbolsOfCountry.s.SplitToIntoBlocksOf(30);
-			foreach(var block in blocks)
+			var blockTuples = new List<string>();
+			foreach(var b in block)
 			{
-				var blockTuples = new List<string>();
-				foreach(var b in block)
+				// "b","b.DE"
+				blockTuples.Add(string.Format("%22{0}%22%2C%22{0}.DE%22", b));
+			}
+			var url = string.Format(urlBase, string.Join("%2C", blockTuples));
+			//string down = new WebClient().DownloadString("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22YHOO.DE%22%2C%22YHOO%22%2C%22AAPL%22%2C%22FOO%22%2C%22MSFT%22)%20&diagnostics=false&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys");
+			var down = new WebClient().DownloadString(url);
+			//Console.WriteLine(down);
+			var test = down.DeserializeFromXml<query>();
+			if(test == null)
+			{
+				Console.WriteLine("keine Daten");
+				continue;
+			}
+		
+			foreach(var result in test.results)
+			{
+				var prevClose = result.PreviousClose.ToDecimal();
+				var open = result.Open.ToDecimal();
+				var ask = result.Ask.ToDecimal();
+				var bid = result.Bid.ToDecimal();
+				var currency = result.Currency;
+				var changePrevToBid = prevClose == 0 ? new decimal?() : (bid/prevClose - 1);
+				// if(!changePrevToBid.HasValue)
+				// {
+					// continue;
+				// }
+				
+				var lastTradePrice = result.LastTradePriceOnly.ToDecimal();
+				var lastTradeDate = result.LastTradeDate.ToDateTime();
+				var lastTradeTime = result.LastTradeTime.ToTime();
+				if(lastTradeDate.HasValue && lastTradeTime.HasValue)
 				{
-					// "b","b.DE"
-					blockTuples.Add(string.Format("%22{0}%22%2C%22{0}.DE%22", b));
+					lastTradeDate = lastTradeDate.Value.AddSeconds(lastTradeTime.Value.TimeOfDay.TotalSeconds);
 				}
-				var url = string.Format(urlBase, string.Join("%2C", blockTuples));
-				//string down = new WebClient().DownloadString("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22YHOO.DE%22%2C%22YHOO%22%2C%22AAPL%22%2C%22FOO%22%2C%22MSFT%22)%20&diagnostics=false&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys");
-				var down = new WebClient().DownloadString(url);
-				//Console.WriteLine(down);
-				var test = down.DeserializeFromXml<query>();
-				if(test == null)
+				// if(!lastTrade.HasValue
+					// || (DateTime.Now.Date - lastTrade.Value).TotalDays > 5)
+				// {
+					// continue;
+				// }
+				var tradedToday = lastTradeDate.HasValue && lastTradeDate.Value == DateTime.Now.Date;
+				var symbolName = result.Name;
+				if(string.IsNullOrEmpty(symbolName))
 				{
-					Console.WriteLine("keine Daten");
+					// leer? Dann Symbol wahrscheinlich ungültig.
 					continue;
 				}
-			
-				foreach(var result in test.results)
-				{
-					var prevClose = result.PreviousClose.ToDecimal();
-					var open = result.Open.ToDecimal();
-					var ask = result.Ask.ToDecimal();
-					var bid = result.Bid.ToDecimal();
-					var currency = result.Currency;
-					var changePrevToBid = prevClose == 0 ? new decimal?() : (bid/prevClose - 1);
-					// if(!changePrevToBid.HasValue)
-					// {
-						// continue;
-					// }
-					
-					var lastTradePrice = result.LastTradePriceOnly.ToDecimal();
-					var lastTradeDate = result.LastTradeDate.ToDateTime();
-					var lastTradeTime = result.LastTradeTime.ToTime();
-					if(lastTradeDate.HasValue && lastTradeTime.HasValue)
-					{
-						lastTradeDate = lastTradeDate.Value.AddSeconds(lastTradeTime.Value.TimeOfDay.TotalSeconds);
-					}
-					// if(!lastTrade.HasValue
-						// || (DateTime.Now.Date - lastTrade.Value).TotalDays > 5)
-					// {
-						// continue;
-					// }
-					var tradedToday = lastTradeDate.HasValue && lastTradeDate.Value == DateTime.Now.Date;
-					var symbolName = result.Name;
-					if(string.IsNullOrEmpty(symbolName))
-					{
-						// leer? Dann Symbol wahrscheinlich ungültig.
-						continue;
-					}
-					
-					resultDtos.Add(
-						new ResultDto
-						{
-							Symbol = result.Symbol, 
-							Name = symbolName, 
-							IsTradedToday = tradedToday,
-							LastTradeDate = lastTradeDate,
-							LastTradePrice = lastTradePrice,
-							Ask = ask,
-							Bid = bid,
-							Currency = currency
-						});
-					
-					var output = string.Format("{0} {1} {2} {3} {4} {5} {6} {7:###.000%}", 
-						country,
-						result.Symbol, 
-						result.Name, 
-						prevClose, 
-						open, 
-						ask, 
-						bid, 
-						changePrevToBid);
-					
-					if(changePrevToBid.HasValue)
-					{
-						outputs.Add(new Tuple<decimal, string>(changePrevToBid.Value, output));
-					}
-				}
 				
-				actualSymbolIndex += block.Length;
-				ConsoleWriteProgress(actualSymbolIndex, symbolsCount);
-//				break;
+				resultDtos.Add(
+					new ResultDto
+					{
+						Symbol = result.Symbol, 
+						Name = symbolName, 
+						IsTradedToday = tradedToday,
+						LastTradeDate = lastTradeDate,
+						LastTradePrice = lastTradePrice,
+						Ask = ask,
+						Bid = bid,
+						Currency = currency
+					});
+				
+				var output = string.Format("{0} {1} {2} {3} {4} {5} {6} {7:###.000%}", 
+					country,
+					result.Symbol, 
+					result.Name, 
+					prevClose, 
+					open, 
+					ask, 
+					bid, 
+					changePrevToBid);
+				
+				if(changePrevToBid.HasValue)
+				{
+					outputs.Add(new Tuple<decimal, string>(changePrevToBid.Value, output));
+				}
 			}
+			
+			actualSymbolIndex += block.Length;
+			ConsoleWriteProgress(actualSymbolIndex, symbolsCount);
+//				break;
 		}
-		
-		//var outFileName = DateTime.Now.ToString("yyyyMMdd HHmmss") + ".txt";
-		var outFileName = "_out.txt";
-		var jsonOutFileName = "_out.json";
-		outputs = outputs.OrderBy(o => o.Item1).ToList();
-		File.WriteAllLines(outFileName, outputs.Select(o => o.Item2));
-		SaveResultsToJsonFile(resultDtos, jsonOutFileName);
-		UploadFile(jsonOutFileName);
-		Calculate();
+	}
+	
+	//var outFileName = DateTime.Now.ToString("yyyyMMdd HHmmss") + ".txt";
+	var outFileName = "_out.txt";
+	var jsonOutFileName = "_out.json";
+	outputs = outputs.OrderBy(o => o.Item1).ToList();
+	File.WriteAllLines(outFileName, outputs.Select(o => o.Item2));
+	SaveResultsToJsonFile(resultDtos, jsonOutFileName);
+	UploadFile(jsonOutFileName);
+	Calculate();
     }
 	
 	private static void SaveResultsToJsonFile(IEnumerable<ResultDto> results, string path)
